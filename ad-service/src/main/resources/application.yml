@@ -6,10 +6,13 @@ logging:
     tomcat: "warn"
     web: "debug"
     sql: "debug"
-    org.springframework: "trace"
+#    org.springframework: "trace"
     org.springframework.boot.context.config: "debug"
     org.springframework.boot.autoconfigure.condition: "debug"
     org.springframework..beans.factory.support: "debug"
+    org.springframework.orm.jpa: debug
+    org.springframework.jdbc.datasource: debug
+    org.hibernate.sql: debug
     microplatform: "trace"
 
 server:
@@ -21,7 +24,11 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: 'http://localhost:9000'
+#          issuer-uri: 'http://localhost:9000'
+          issuer-uri: http://localhost:8083/auth/realms/baeldung
+#          points to the URI containing the public key so that our Resource Server can verify the tokens' integrity.
+          jwk-set-uri: http://localhost:8083/auth/realms/baeldung/protocol/openid-connect/certs
+
 
 #security:
 #  sessions: NEVER
