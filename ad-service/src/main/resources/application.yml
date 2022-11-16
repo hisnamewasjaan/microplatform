@@ -1,0 +1,27 @@
+logging:
+  group:
+    tomcat: "org.apache.catalina,org.apache.coyote,org.apache.tomcat"
+  level:
+    root: "warn"
+    tomcat: "warn"
+    web: "debug"
+    sql: "debug"
+    org.springframework: "trace"
+    org.springframework.boot.context.config: "debug"
+    org.springframework.boot.autoconfigure.condition: "debug"
+    org.springframework..beans.factory.support: "debug"
+    microplatform: "trace"
+
+server:
+  port: 8081
+
+
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: 'http://localhost:9000'
+
+#security:
+#  sessions: NEVER
