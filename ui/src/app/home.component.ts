@@ -13,6 +13,7 @@ import {AppService} from './app.service'
     </button>
     <div *ngIf="isLoggedIn" class="content">
         <span>Welcome !!</span>
+        <user-details></user-details>
         <a class="btn btn-default pull-right"(click)="logout()" href="#">Logout</a>
         <br/>
         <ad-details></ad-details>

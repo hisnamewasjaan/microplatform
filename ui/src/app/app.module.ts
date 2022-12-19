@@ -5,13 +5,15 @@ import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { HomeComponent } from "./home.component";
 import { AdComponent } from "./ad.component";
+import { UserComponent } from "./user.component";
 import { RouterModule } from "@angular/router";
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    AdComponent
+    AdComponent,
+    UserComponent
   ],
   imports: [
     BrowserModule,

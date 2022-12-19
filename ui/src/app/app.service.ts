@@ -21,6 +21,17 @@ export interface IAd {
     name: string;
 }
 
+export interface IUser {
+    id: number;
+    preferred_username: string;
+}
+export class User {
+    constructor(
+        public id: number,
+        public preferred_username: string) {
+    }
+}
+
 @Injectable()
 export class AppService {
     /**
@@ -49,6 +60,18 @@ export class AppService {
             .subscribe(
                 data => this.saveToken(data),
                 err => alert('Invalid Credentials'));
+    }
+
+    getUser(): Observable<any>{
+        var headers = new HttpHeaders({
+            'Content-type': 'application/x-www-form-urlencoded; charset=utf-8',
+            'Authorization': 'Bearer ' + Cookie.get('access_token')
+        });
+
+        return this._http.get<IUser>(
+            'http://localhost:8083/auth/realms/baeldung/protocol/openid-connect/userinfo',
+            {headers: headers})
+            ;
     }
 
     saveToken(token: any) {

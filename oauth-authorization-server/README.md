@@ -14,3 +14,10 @@ The Keycloak server issues JWT tokens by default, so there is no separate config
 
 
 Access admin [http://localhost:8083/auth/](http://localhost:8083/auth/)
+
+Check [application.yml](src/main/resources/application.yml) for credentials
+
+## Users
+
+- john@test.com / 123
+- mike@other /
