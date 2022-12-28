@@ -23,6 +23,9 @@ export interface IAd {
 
 @Injectable()
 export class AppService {
+    /**
+     * OAuth2 client id
+     */
     public clientId = 'newClient';
     public redirectUri = 'http://localhost:4200/';
 
@@ -50,6 +53,7 @@ export class AppService {
 
     saveToken(token: any) {
         var expireDate = new Date().getTime() + (1000 * token.expires_in);
+        /* set cookie for storage only, it will never be sent */
         Cookie.set("access_token", token.access_token, expireDate);
         console.log('Obtained Access token');
         window.location.href = 'http://localhost:4200';
