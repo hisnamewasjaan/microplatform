@@ -1,0 +1,14 @@
+<div class="container">
+    <h1 class="col-sm-12">User Details</h1>
+    <div class="col-sm-12">
+        <label class="xcol-sm-3">ID: </label>
+        <label class="xcol-sm-3"> <span>{{user.sub}}</span></label>
+    </div>
+    <div class="col-sm-12">
+        <label class="xcol-sm-3">User name: </label>
+        <label class="xcol-sm-3"><span>{{user.preferred_username}}</span> </label>
+    </div>
+    <div class="col-sm-12">
+        <button class="btn btn-primary" (click)="getUser()" type="submit">get User</button>
+    </div>
+</div>

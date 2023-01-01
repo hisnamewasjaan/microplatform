@@ -1,0 +1,15 @@
+<div class="container">
+    <h2>My Ads</h2>
+    <div *ngFor="let ad of ads">
+        <h3>
+            <a
+                    [title]="ad.name + ' details'"
+                    [routerLink]="['/ads', ad.id]">
+                {{ad.name}}
+            </a>
+        </h3>
+        <p *ngIf="ad.description">
+            Description: {{ ad.description }}
+        </p>
+    </div>
+</div>

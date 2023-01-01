@@ -1,32 +1,19 @@
-import { Component } from '@angular/core';
-import {AppService} from './app.service'
+import { Component, OnInit } from '@angular/core';
+import {AppService} from "../app.service";
 
 @Component({
-  selector: 'home-header',
+  selector: 'app-home',
   providers: [AppService],
-  template: `<div class="container" >
-    <button *ngIf="!isLoggedIn"
-            class="btn btn-primary"
-            (click)="login()"
-            type="submit">
-      Login
-    </button>
-    <div *ngIf="isLoggedIn" class="content">
-        <span>Welcome !!</span>
-        <user-details></user-details>
-        <a class="btn btn-default pull-right"(click)="logout()" href="#">Logout</a>
-        <br/>
-        <ad-details></ad-details>
-    </div>
-</div>`
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.css']
 })
+export class HomeComponent implements OnInit {
 
-export class HomeComponent {
   public isLoggedIn = false
 
   constructor(private _service: AppService) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.isLoggedIn = this._service.checkCredentials();
     let i = window.location.href.indexOf('code');
     if (!this.isLoggedIn && i != -1) {

@@ -1,0 +1,10 @@
+
+<h2>Ad Details</h2>
+
+<div *ngIf="ad">
+    <h3>{{ ad.name }}</h3>
+    <h4>{{ ad.price | currency }}</h4>
+    <p>{{ ad.description }}</p>
+</div>
+
+<button type="button" (click)="goBack()">go back</button>

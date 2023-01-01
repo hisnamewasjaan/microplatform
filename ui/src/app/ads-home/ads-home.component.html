@@ -1,0 +1,30 @@
+<div class="container">
+
+    <app-ads [ads]="ads"></app-ads>
+
+    <div class="col-sm-12">
+
+        <form [formGroup]="adForm" (ngSubmit)="onSubmit()">
+            <div>
+                <label for="name">Name</label>
+                <input id="name" type="text" formControlName="name">
+            </div>
+            <div>
+                <label for="description">Description</label>
+                <input id="description" type="text" formControlName="description">
+            </div>
+            <div>
+                <label for="price">Price</label>
+                <input id="price" type="text" formControlName="price">
+            </div>
+            <button class="button" type="submit">create Ad</button>
+
+        </form>
+    </div>
+<!--    <div class="col-sm-12">-->
+<!--        <button class="btn btn-primary" (click)="getMyAds()" type="submit">My Ads</button>-->
+<!--    </div>-->
+<!--    <div class="col-sm-12">-->
+<!--        <button class="btn btn-primary" (click)="getAllAds()" type="submit">All Ads</button>-->
+<!--    </div>-->
+</div>

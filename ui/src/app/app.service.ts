@@ -9,25 +9,13 @@ import {catchError} from "rxjs";
 import * as rxjs from 'rxjs';
 
 
-export class Ad {
-    constructor(
-        public id: number,
-        public name: string) {
-    }
-}
-
-export interface IAd {
-    id: number;
-    name: string;
-}
-
 export interface IUser {
-    id: number;
+    sub: string;
     preferred_username: string;
 }
 export class User {
     constructor(
-        public id: number,
+        public sub: string,
         public preferred_username: string) {
     }
 }
@@ -63,7 +51,7 @@ export class AppService {
     }
 
     getUser(): Observable<any>{
-        var headers = new HttpHeaders({
+        let headers = new HttpHeaders({
             'Content-type': 'application/x-www-form-urlencoded; charset=utf-8',
             'Authorization': 'Bearer ' + Cookie.get('access_token')
         });
@@ -75,47 +63,11 @@ export class AppService {
     }
 
     saveToken(token: any) {
-        var expireDate = new Date().getTime() + (1000 * token.expires_in);
+        let expireDate = new Date().getTime() + (1000 * token.expires_in);
         /* set cookie for storage only, it will never be sent */
         Cookie.set("access_token", token.access_token, expireDate);
         console.log('Obtained Access token');
         window.location.href = 'http://localhost:4200';
-    }
-
-    getResource(resourceUrl: string): Observable<any> {
-        var headers = new HttpHeaders({
-            'Content-type': 'application/x-www-form-urlencoded; charset=utf-8',
-            'Authorization': 'Bearer ' + Cookie.get('access_token')
-        });
-        // return this._http.get(resourceUrl, {headers: headers})
-        //     .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
-        return this._http.get<IAd>(resourceUrl, {headers: headers})
-            // .pipe(
-            //     catchError(this.handleError<IAd>('getResource'))
-            // )
-            ;
-    }
-
-    getResources(resourceUrl: string): Observable<any> {
-        var headers = new HttpHeaders({
-            'Content-type': 'application/x-www-form-urlencoded; charset=utf-8',
-            'Authorization': 'Bearer ' + Cookie.get('access_token')
-        });
-        return this._http.get<IAd[]>(resourceUrl, {headers: headers});
-    }
-
-    createResource(resourceUrl: string, ad: Ad): Observable<any> {
-        var headers = new HttpHeaders({
-            'Content-type': 'application/json',
-            'Authorization': 'Bearer ' + Cookie.get('access_token')
-        });
-        console.log(ad); // log to console instead
-
-        return this._http.post(resourceUrl, ad, {headers: headers})
-            // .pipe(
-            //     catchError(this.handleError<IAd>('createResource', ad))
-            // )
-        ;
     }
 
     checkCredentials() {

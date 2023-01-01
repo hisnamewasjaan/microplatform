@@ -3,23 +3,33 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
-import { HomeComponent } from "./home.component";
-import { AdComponent } from "./ad.component";
-import { UserComponent } from "./user.component";
+import { HomeComponent } from "./home/home.component";
+import { UserComponent } from "./user/user.component";
 import { RouterModule } from "@angular/router";
+import { AdDetailsComponent } from './ad-details/ad-details.component';
+import {ReactiveFormsModule} from "@angular/forms";
+import { AdsComponent } from './ads/ads.component';
+import { AdsHomeComponent } from './ads-home/ads-home.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    AdComponent,
-    UserComponent
+    UserComponent,
+    AdDetailsComponent,
+    AdsComponent,
+    AdsHomeComponent
   ],
   imports: [
     BrowserModule,
+    // FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     RouterModule.forRoot([
-      {path: '', component: HomeComponent, pathMatch: 'full'}], {onSameUrlNavigation: 'reload'}
+      {path: '', component: HomeComponent, pathMatch: 'full'},
+      {path: 'ads/:adId', component: AdDetailsComponent}
+        ],
+        {onSameUrlNavigation: 'reload'}
     )
   ],
   providers: [],
