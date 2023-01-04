@@ -28,6 +28,9 @@ public class ResourceServerConfig {
                 .cors()
                 .and()
                 .authorizeRequests()
+                    .antMatchers("/favicon.ico", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html")
+                    .permitAll()
+//                .authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/user/info", "/api/ads/**")
                 .hasAuthority("SCOPE_read")
                 .antMatchers(HttpMethod.POST, "/api/ads")
@@ -39,6 +42,5 @@ public class ResourceServerConfig {
                 .jwt();
         return http.build();
     }
-
 
 }

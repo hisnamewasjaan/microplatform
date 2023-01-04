@@ -5,6 +5,10 @@ import microplatform.adservice.domain.IAdService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,11 +30,12 @@ import java.util.UUID;
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping(value = "/api/ads")
 public class AdController {
-    Logger logger = LoggerFactory.getLogger(AdController.class);
+    private static final Logger logger =
+            LoggerFactory.getLogger(AdController.class);
 
     IAdService adService;
 
-    public AdController(IAdService adService){
+    public AdController(IAdService adService) {
         this.adService = adService;
     }
 
@@ -43,10 +48,13 @@ public class AdController {
     }
 
     @PostMapping
-    public AdDto addOne(@Valid @RequestBody AdDto toAdd) {
-        logger.info("addOne <{}>", toAdd);
-        Ad entity = adService
-                .save(convertToAd(toAdd));
+    public AdDto create(@Valid @RequestBody AdDto toAdd) {
+        logger.info("create <{}>", toAdd);
+        Ad entity = adService.newAd(
+                getSubject(),
+                toAdd.getName(),
+                toAdd.getDescription(),
+                toAdd.getPrice());
         return convertToDto(entity);
     }
 
@@ -58,57 +66,33 @@ public class AdController {
         return dtos;
     }
 
+    @GetMapping(value = "myAds")
+    public Collection<AdDto> myAds() {
+        Iterable<Ad> all = adService.findAllMyAds(getSubject());
+        List<AdDto> dtos = new ArrayList<>();
+        all.forEach(p -> dtos.add(convertToDto(p)));
+        return dtos;
+    }
+
     private AdDto convertToDto(Ad entity) {
         logger.info("convertToDto <{}>", entity);
-        return new AdDto(entity.getId(), entity.getName());
+        AdDto adDto = new AdDto(entity.getId(), entity.getName());
+        adDto.setDescription(entity.getDescription());
+        adDto.setPrice(entity.getPrice());
+        adDto.setAdStatus(entity.getAdStatus() != null
+                ? entity.getAdStatus().toString()
+                : null);
+        adDto.setExpires(entity.getExpires());
+        adDto.setSellerId(entity.getSellerId());
+        return adDto;
     }
 
-    private Ad convertToAd(AdDto dto) {
-        logger.info("convertToAd <{}>", dto);
-        return new Ad(dto.getName());
+    private String getSubject() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        logger.info("with authentication <{}>", authentication);
+        Jwt jwt = (Jwt) authentication.getPrincipal();
+        logger.info("jwt subject <{}>", jwt.getSubject());
+        return jwt.getSubject();
     }
-
-
-    @RequestMapping("/create")
-    public String create() {
-        logger.trace("TRACE create");
-        logger.debug("DEBUG create");
-        logger.info("INFO create");
-        logger.warn("WARN create");
-        logger.error("ERROR create");
-
-        String id = UUID.randomUUID().toString();
-        logger.info("ad created <{}>", id);
-        return id;
-    }
-
-    @GetMapping("/ads")
-    public String[] getArticles() {
-        return new String[] { "Article 1", "Article 2", "Article 3" };
-    }
-
-    @RequestMapping("/list")
-    public String list() {
-        return "listen";
-    }
-
-    @RequestMapping("/resource")
-    @CrossOrigin(origins = "*", maxAge = 3600)
-    public Map<String, Object> home() {
-        String id = UUID.randomUUID().toString();
-        logger.info("requesting resource <{}>", id);
-        Map<String, Object> model = new HashMap<String, Object>();
-        model.put("id", id);
-        model.put("content", "Hello World");
-        return model;
-    }
-
-//    @RequestMapping("/list")
-//    public List<String> list() {
-//        return List.of(
-//                UUID.randomUUID().toString(),
-//                UUID.randomUUID().toString()
-//        );
-//    }
 
 }

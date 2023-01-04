@@ -1,11 +1,17 @@
 package microplatform.adservice.domain;
 
+import microplatform.adservice.web.AdController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 @Service
 public class AdServiceImpl implements IAdService {
+
+    private Logger logger = LoggerFactory.getLogger(AdController.class);
 
     IAdRepository adRepository;
 
@@ -21,13 +27,33 @@ public class AdServiceImpl implements IAdService {
     }
 
     @Override
+    public Ad newAd(String sellerId, String name, String description, BigDecimal price) {
+        Ad ad = Ad.newAd(name, description, price, sellerId);
+        return adRepository.save(ad);
+    }
+
+
+    @Override
     public Ad save(Ad ad) {
         return adRepository.save(ad);
     }
 
     @Override
+    public Ad unlist(Ad ad) {
+        return ad.unlist();
+    }
+
+    @Override
     public Iterable<Ad> findAll() {
         return adRepository.findAll();
+    }
+
+    @Override
+    public Iterable<Ad> findAllMyAds(String sellerId) {
+        logger.debug("findAllMyAds <{}>", sellerId);
+        Iterable<Ad> allBySellerId = adRepository.findAllBySellerId(sellerId);
+        logger.debug("found <{}>", allBySellerId);
+        return allBySellerId;
     }
 
 }
