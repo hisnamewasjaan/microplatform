@@ -38,17 +38,4 @@ class AdTest {
         verify(eventHandler, times(1)).handleEvent(any(AdListedEvent.class));
     }
 
-    @DisplayName("given aggregate extending AbstractAggregateRoot,"
-            + " when do domain operation and save,"
-            + " then an event is published")
-    @Test
-    void domainEvents() {
-        Ad ad = Ad.newAd("Testing", "Description", new BigDecimal(1000), "id10");
-        ad.activate();
-        repository.save(ad);
-
-        verify(eventHandler, times(1)).handleEvent(any(AdCreatedEvent.class));
-        verify(eventHandler, times(1)).handleEvent(any(AdListedEvent.class));
-    }
-
 }
