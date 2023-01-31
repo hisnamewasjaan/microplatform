@@ -12,6 +12,10 @@ help: ## This help.
 .DEFAULT_GOAL := help
 
 # Gradle TASKS
+# run tests
+test: ## Run tests
+	./gradlew -g ~/.gradle5 --console verbose -PtestloggerQuiet=true test
+
 # build jar
 jar: ## Build the jar file
 	./gradlew -g ~/.gradle5 --console verbose -PtestloggerQuiet=true assemble
