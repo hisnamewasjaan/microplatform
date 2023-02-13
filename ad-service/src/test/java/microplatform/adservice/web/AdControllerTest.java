@@ -31,6 +31,12 @@ class AdControllerTest {
     }
 
     @Test
+    public void find() throws Exception {
+        mockMvc.perform(get("/api/ads/45e31349-249f-4533-a347-4e181e3d5ade"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
     public void findAllJwt() throws Exception {
         mockMvc.perform(get("/api/ads").with(jwt()))
                 .andExpect(status().isOk());
@@ -38,7 +44,8 @@ class AdControllerTest {
 
     @Test
     public void createWithJwt() throws Exception {
-        String json = objectMapper.writeValueAsString(new AdDto(Long.MAX_VALUE, "just a test"));
+        AdDto justATest = makeAdDto("just a test");
+        String json = objectMapper.writeValueAsString(justATest);
         mockMvc.perform(post("/api/ads")
                         .content(json)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -50,7 +57,8 @@ class AdControllerTest {
 
     @Test
     public void createJwtForbidden() throws Exception {
-        String json = objectMapper.writeValueAsString(new AdDto(Long.MAX_VALUE, "just a test"));
+        AdDto justATest = makeAdDto("just a test");
+        String json = objectMapper.writeValueAsString(justATest);
         mockMvc.perform(post("/api/ads")
                         .content(json)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -60,9 +68,11 @@ class AdControllerTest {
                 .andExpect(status().isForbidden());
     }
 
+
     @Test
     public void createUnauthorized() throws Exception {
-        String json = objectMapper.writeValueAsString(new AdDto(Long.MAX_VALUE, "just a test"));
+        AdDto justATest = makeAdDto("just a test");
+        String json = objectMapper.writeValueAsString(justATest);
         mockMvc.perform(post("/api/ads")
                         .content(json)
                         .contentType(MediaType.APPLICATION_JSON))
@@ -70,5 +80,10 @@ class AdControllerTest {
                 .andExpect(status().isForbidden());
     }
 
+    private static AdDto makeAdDto(String name) {
+        AdDto justATest = new AdDto();
+        justATest.setName(name);
+        return justATest;
+    }
 
 }

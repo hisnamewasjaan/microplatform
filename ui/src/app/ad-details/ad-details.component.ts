@@ -23,7 +23,7 @@ export class AdDetailsComponent implements OnInit {
   ngOnInit(): void {
     // First get the ad id from the current route.
     const routeParams = this.route.snapshot.paramMap;
-    const adIdFromRoute = Number(routeParams.get('adId'));
+    const adIdFromRoute = String(routeParams.get('adId'));
     console.log(routeParams)
     // Find the ad that correspond with the id provided in route.
     this.adService

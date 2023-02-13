@@ -9,7 +9,7 @@ logging:
 #    org.springframework: "trace"
     org.springframework.boot.context.config: "debug"
     org.springframework.boot.autoconfigure.condition: "debug"
-    org.springframework..beans.factory.support: "debug"
+    org.springframework.beans.factory.support: "debug"
     org.springframework.orm.jpa: debug
     org.springframework.jdbc.datasource: debug
     org.hibernate.sql: debug
@@ -28,7 +28,25 @@ spring:
           issuer-uri: http://localhost:8083/auth/realms/baeldung
 #          points to the URI containing the public key so that our Resource Server can verify the tokens' integrity.
           jwk-set-uri: http://localhost:8083/auth/realms/baeldung/protocol/openid-connect/certs
+  datasource:
+    driver-class-name: "org.h2.Driver"
+    url: "jdbc:h2:/Users/janemilbentzen/h2/microtest"
 
+#    url: "jdbc:h2:mem:test;DB_CLOSE_ON_EXIT=FALSE"
+  jpa:
+    generate-ddl: true
+    database: H2
+    database-platform: "org.hibernate.dialect.H2Dialect"
+    hibernate:
+      ddl-auto: update
+      dialect: "org.hibernate.dialect.H2Dialect"
+    show-sql: true
+  #      database-platform: "org.hibernate.dialect.H2Dialect"
+
+
+  h2:
+    console:
+      enabled: true
 
 #security:
 #  sessions: NEVER

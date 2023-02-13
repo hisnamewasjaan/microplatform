@@ -2,11 +2,11 @@ package microplatform.adservice.web;
 
 import microplatform.adservice.domain.Ad;
 import microplatform.adservice.domain.IAdService;
+import microplatform.adservice.domain.AdId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -21,10 +21,7 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
@@ -39,10 +36,11 @@ public class AdController {
         this.adService = adService;
     }
 
+    //todo try with UUID type
     @GetMapping(value = "/{id}")
-    public AdDto findOne(@PathVariable Long id) {
+    public AdDto findOne(@PathVariable String id) {
         Ad entity = adService
-                .findById(id)
+                .findById(AdId.of(id))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         return convertToDto(entity);
     }
@@ -55,6 +53,7 @@ public class AdController {
                 toAdd.getName(),
                 toAdd.getDescription(),
                 toAdd.getPrice());
+        logger.info("Ad created <{}>", entity);
         return convertToDto(entity);
     }
 
@@ -76,9 +75,12 @@ public class AdController {
 
     private AdDto convertToDto(Ad entity) {
         logger.info("convertToDto <{}>", entity);
-        AdDto adDto = new AdDto(entity.getId(), entity.getName());
+        AdDto adDto = new AdDto(entity.getId().getId());
+        adDto.setName(entity.getName());
         adDto.setDescription(entity.getDescription());
-        adDto.setPrice(entity.getPrice());
+        adDto.setPrice(entity.getPrice() != null
+                ? entity.getPrice().getAmount()
+                : null);
         adDto.setAdStatus(entity.getAdStatus() != null
                 ? entity.getAdStatus().toString()
                 : null);

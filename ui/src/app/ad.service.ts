@@ -20,7 +20,7 @@ export class AdService {
     return this.getAllMyAds();
   }
 
-  getMyAd(id: number): Observable<Ad|undefined> {
+  getMyAd(id: string): Observable<Ad|undefined> {
     // return of(ADS.find(ad => ad.id === id));
     return this.getAdById(id);
   }
@@ -29,7 +29,7 @@ export class AdService {
    * GET ad by id.
    * Will 404 if id not found
    */
-  getAdById(id: number): Observable<Ad | undefined> {
+  getAdById(id: string): Observable<Ad | undefined> {
     return this._http
         .get<Ad>(
             this.adsUrl + id,

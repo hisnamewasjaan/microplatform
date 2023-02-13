@@ -16,6 +16,10 @@ help: ## This help.
 test: ## Run tests
 	./gradlew -g ~/.gradle5 --console verbose -PtestloggerQuiet=true test
 
+# bootRun
+bootRun: ## Run spring boot app
+	./gradlew -g ~/.gradle5 --console verbose bootRun
+
 # build jar
 jar: ## Build the jar file
 	./gradlew -g ~/.gradle5 --console verbose -PtestloggerQuiet=true assemble

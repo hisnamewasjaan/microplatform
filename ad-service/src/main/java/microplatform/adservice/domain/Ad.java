@@ -1,24 +1,25 @@
 package microplatform.adservice.domain;
 
+import lombok.ToString;
 import microplatform.adservice.domain.events.AdCreatedEvent;
 import microplatform.adservice.domain.events.AdListedEvent;
 import microplatform.adservice.domain.events.AdUnlistedEvent;
-import microplatform.adservice.web.AdController;
-import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.AbstractAggregateRoot;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Embedded;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.validation.constraints.NotBlank;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-@Entity
 /**
  *
  * Using JPA, you can designate any POJO class as a JPA entity–a Java object
@@ -27,57 +28,62 @@ import java.time.LocalDateTime;
  * (either within a Java EE EJB container or outside an EJB container in a
  * Java SE application).
  */
+@Entity
+@Table(name = "ads")
+@ToString
 public class Ad extends AbstractAggregateRoot<Ad> {
 
     private static final Logger logger = LoggerFactory.getLogger(Ad.class);
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @EmbeddedId
+    private AdId id;
 
-    @NotBlank(message = "Name is mandatory")
-    private String name;
+    @Version
+    private Long version;
 
-    private String description;
-//    @NotNull(message = "Price is mandatory")
-    private BigDecimal price;
+    @NotNull(message = "ItemForSale is mandatory")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "item_for_sale_id")
+    private ItemForSale itemForSale;
+
+    @NotNull(message = "Price is mandatory")
+    @Embedded
+    private Money price;
     private String sellerId;
 
     private AdStatus adStatus;
 
     private LocalDateTime expires;
 
-    static Ad newAd(String name, String description, BigDecimal price, String sellerId) {
+    public static Ad newAd(ItemForSale itemForSale, BigDecimal price, String sellerId) {
         Ad ad = new Ad();
-        ad.name = name;
-        ad.description = description;
-        ad.price = price;
+        ad.id = AdId.create();
+        ad.itemForSale = itemForSale;
+        ad.price = Money.ofDkk(price);
         ad.sellerId = sellerId;
+        ad.adStatus = AdStatus.INACTIVE;
         ad.registerEvent(new AdCreatedEvent());
         logger.debug("New ad created <{}>", ad);
+        itemForSale.setAd(ad);
         return ad;
     }
     protected Ad() {
     }
 
-    public Ad(String name) {
-        this.name = name;
+    public Ad(ItemForSale itemForSale) {
+        this.itemForSale = itemForSale;
     }
 
-    public Long getId() {
+    public AdId getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(AdId id) {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public void setPrice(Money price) {
+        this.price = price;
     }
 
     public Ad activate() {
@@ -98,10 +104,8 @@ public class Ad extends AbstractAggregateRoot<Ad> {
         int result = 1;
         result = prime * result;
         result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
         return result;
     }
-
 
     @Override
     public boolean equals(Object obj) {
@@ -113,32 +117,11 @@ public class Ad extends AbstractAggregateRoot<Ad> {
             return false;
         Ad other = (Ad) obj;
         if (id == null) {
-            if (other.id != null)
-                return false;
-        } else if (!id.equals(other.id))
-            return false;
-        if (name == null) {
-            if (other.name != null)
-                return false;
-        } else if (!name.equals(other.name))
-            return false;
-        return true;
+            return other.id == null;
+        } else return id.equals(other.id);
     }
 
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this)
-                .append("id", id)
-                .append("name", name)
-                .append("description", description)
-                .append("price", price)
-                .append("sellerId", sellerId)
-                .append("adStatus", adStatus)
-                .append("expires", expires)
-                .toString();
-    }
-
-    public BigDecimal getPrice() {
+    public Money getPrice() {
         return price;
     }
 
@@ -154,8 +137,24 @@ public class Ad extends AbstractAggregateRoot<Ad> {
         return expires;
     }
 
+    public String getName() {
+        return itemForSale.getName();
+    }
+
     public String getDescription() {
-        return description;
+        return itemForSale.getDescription();
+    }
+
+    public void setItemForSale(ItemForSale itemForSale){
+        this.itemForSale = itemForSale;
+    }
+
+    public ItemForSale getItemForSale(){
+        return itemForSale;
+    }
+
+    public Long getVersion() {
+        return version;
     }
 
 }
