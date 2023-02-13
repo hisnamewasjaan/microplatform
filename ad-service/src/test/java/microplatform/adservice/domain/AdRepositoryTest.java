@@ -23,8 +23,12 @@ class AdRepositoryTest implements WithAssertions {
     @Test
     public void findBy() {
         String sellerId = "seller-id-adssdfds";
-        Ad ad = Ad.newAd("just a test",
-                "just a desc",
+        ItemForSale itemForSale = new ItemForSale(
+                "just a test",
+                "just a desc");
+        entityManager.persist(itemForSale);
+        Ad ad = Ad.newAd(
+                itemForSale,
                 BigDecimal.valueOf(1000.00),
                 sellerId);
         entityManager.persist(ad);

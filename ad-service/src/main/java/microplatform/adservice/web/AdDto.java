@@ -1,12 +1,14 @@
 package microplatform.adservice.web;
 
+import microplatform.adservice.domain.Ad;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public class AdDto {
-    private Long id;
+    private UUID id;
     private String name;
     private String description;
     private BigDecimal price;
@@ -14,6 +16,16 @@ public class AdDto {
     private String adStatus;
     private LocalDateTime expires;
 
+    public static AdDto of(Ad ad) {
+        AdDto adDto = new AdDto(ad.getId().getId());
+        adDto.setName(ad.getName());
+        adDto.setDescription(ad.getDescription());
+        adDto.setPrice(ad.getPrice().getAmount());
+        adDto.setSellerId(ad.getSellerId());
+        adDto.setAdStatus(ad.getAdStatus().name());
+        return adDto;
+
+    }
     public AdDto() {
         super();
     }
@@ -58,20 +70,16 @@ public class AdDto {
         this.expires = expires;
     }
 
-    public AdDto(final long id, final String name) {
+    public AdDto(final UUID id) {
         super();
-
         this.id = id;
-        this.name = name;
     }
 
-    //
-
-    public long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(final long id) {
+    public void setId(final UUID id) {
         this.id = id;
     }
 
@@ -82,7 +90,6 @@ public class AdDto {
     public void setName(final String name) {
         this.name = name;
     }
-
 
     @Override
     public String toString() {

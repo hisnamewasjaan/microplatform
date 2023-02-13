@@ -45,4 +45,19 @@ public class ResourceServerConfig {
         return http.build();
     }
 
+
+//    @Bean
+//    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//        /* use for h2-console */
+////        http.authorizeRequests().antMatchers("/").permitAll().and()
+////                .authorizeRequests().antMatchers("/h2-console/**").permitAll();
+//
+//        /* Disable CSRF protection */
+//        http.csrf().disable();
+//        /* Disable X-Frame-Options in Spring Security */
+//        http.headers().frameOptions().disable();
+//
+//        return http.build();
+//    }
+
 }

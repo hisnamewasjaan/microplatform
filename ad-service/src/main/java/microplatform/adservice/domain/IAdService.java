@@ -7,7 +7,7 @@ public interface IAdService {
 
     Ad newAd(String sellerId, String name, String description, BigDecimal price);
 
-    Optional<Ad> findById(Long id);
+    Optional<Ad> findById(AdId id);
 
     Ad save(Ad ad);
 

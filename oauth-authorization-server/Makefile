@@ -11,7 +11,11 @@ help: ## This help.
 
 .DEFAULT_GOAL := help
 
-# Gradle TASKS
+# Maven TASKS
+# spring-boot run
+bootRun: ## Run spring boot app
+	mvn spring-boot:run
+
 # build jar
 jar: ## Build the jar file
 	mvn clean install

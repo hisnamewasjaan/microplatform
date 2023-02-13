@@ -40,7 +40,7 @@ export class AdsHomeComponent implements OnInit {
     this.adForm.reset();
   }
 
-  getAd(id: number) {
+  getAd(id: string) {
     this._adService.getAdById(id)
         .subscribe(ad =>
             this.ad = ad);
