@@ -14,7 +14,11 @@ logging:
     org.springframework.jdbc.datasource: debug
     org.hibernate.sql: debug
     microplatform: "trace"
-
+    org:
+      springframework:
+        boot:
+          autoconfigure:
+            h2: debug
 server:
   port: 8081
 
@@ -47,6 +51,9 @@ spring:
   h2:
     console:
       enabled: true
+      settings:
+        trace: true
+
 
 #security:
 #  sessions: NEVER

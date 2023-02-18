@@ -1,5 +1,9 @@
 package microplatform.adservice.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 import microplatform.adservice.domain.events.AdCreatedEvent;
 import microplatform.adservice.domain.events.AdListedEvent;
@@ -29,6 +33,10 @@ import java.time.LocalDateTime;
  * Java SE application).
  */
 @Entity
+@Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "ads")
 @ToString
 public class Ad extends AbstractAggregateRoot<Ad> {
@@ -56,35 +64,24 @@ public class Ad extends AbstractAggregateRoot<Ad> {
     private LocalDateTime expires;
 
     public static Ad newAd(ItemForSale itemForSale, BigDecimal price, String sellerId) {
-        Ad ad = new Ad();
-        ad.id = AdId.create();
-        ad.itemForSale = itemForSale;
-        ad.price = Money.ofDkk(price);
-        ad.sellerId = sellerId;
-        ad.adStatus = AdStatus.INACTIVE;
+        Ad ad = Ad.builder()
+                .id(AdId.create())
+                .itemForSale(itemForSale)
+                .price(Money.ofDkk(price))
+                .sellerId(sellerId)
+                .adStatus(AdStatus.INACTIVE)
+                .build();
+        //todo is this really necessary ?
+        itemForSale.setAd(ad);
         ad.registerEvent(new AdCreatedEvent());
         logger.debug("New ad created <{}>", ad);
-        itemForSale.setAd(ad);
         return ad;
     }
-    protected Ad() {
-    }
 
-    public Ad(ItemForSale itemForSale) {
-        this.itemForSale = itemForSale;
-    }
-
-    public AdId getId() {
-        return id;
-    }
-
-    public void setId(AdId id) {
-        this.id = id;
-    }
-
-    public void setPrice(Money price) {
-        this.price = price;
-    }
+//    public void setItemForSale(ItemForSale itemForSale) {
+//        this.itemForSale = itemForSale;
+//        itemForSale.setAd(this);
+//    }
 
     public Ad activate() {
         adStatus = AdStatus.ACTIVE;
@@ -119,42 +116,6 @@ public class Ad extends AbstractAggregateRoot<Ad> {
         if (id == null) {
             return other.id == null;
         } else return id.equals(other.id);
-    }
-
-    public Money getPrice() {
-        return price;
-    }
-
-    public String getSellerId() {
-        return sellerId;
-    }
-
-    public AdStatus getAdStatus() {
-        return adStatus;
-    }
-
-    public LocalDateTime getExpires() {
-        return expires;
-    }
-
-    public String getName() {
-        return itemForSale.getName();
-    }
-
-    public String getDescription() {
-        return itemForSale.getDescription();
-    }
-
-    public void setItemForSale(ItemForSale itemForSale){
-        this.itemForSale = itemForSale;
-    }
-
-    public ItemForSale getItemForSale(){
-        return itemForSale;
-    }
-
-    public Long getVersion() {
-        return version;
     }
 
 }

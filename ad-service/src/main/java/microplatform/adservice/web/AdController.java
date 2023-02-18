@@ -76,8 +76,8 @@ public class AdController {
     private AdDto convertToDto(Ad entity) {
         logger.info("convertToDto <{}>", entity);
         AdDto adDto = new AdDto(entity.getId().getId());
-        adDto.setName(entity.getName());
-        adDto.setDescription(entity.getDescription());
+        adDto.setName(entity.getItemForSale().getName());
+        adDto.setDescription(entity.getItemForSale().getDescription());
         adDto.setPrice(entity.getPrice() != null
                 ? entity.getPrice().getAmount()
                 : null);

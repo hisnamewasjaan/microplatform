@@ -1,5 +1,6 @@
 package microplatform.adservice.domain;
 
+import microplatform.adservice.domain.events.ItemForSaleId;
 import microplatform.adservice.web.AdController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +29,12 @@ public class AdServiceImpl implements IAdService {
     @Transactional
     @Override
     public Ad newAd(String sellerId, String name, String description, BigDecimal price) {
-        ItemForSale itemForSale = new ItemForSale(name, description);
+        ItemForSale itemForSale = ItemForSale
+                .builder()
+                .id(ItemForSaleId.create())
+                .name(name)
+                .description(description)
+                .build();
         Ad ad = Ad.newAd(itemForSale, price, sellerId);
         ad.getItemForSale().setDescription("hahahaha");
         return adRepository.save(ad);

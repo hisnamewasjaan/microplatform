@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import microplatform.adservice.domain.Ad;
 import microplatform.adservice.domain.IAdService;
 import microplatform.adservice.domain.ItemForSale;
+import microplatform.adservice.domain.events.ItemForSaleId;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -70,7 +71,11 @@ class AdControllerUnitTest {
     @Test
     public void postWithAuthorizedUser() throws Exception {
         Ad ad = Ad.newAd(
-                new ItemForSale("just a test", "just a desc"),
+                ItemForSale.builder()
+                        .id(ItemForSaleId.create())
+                        .name("just a test")
+                        .description("just a desc")
+                        .build(),
                 BigDecimal.valueOf(300.0d),
                 "user");
         when(adService.newAd("user", "just a test", "just a desc", BigDecimal.valueOf(300.0d))).thenReturn(ad);
