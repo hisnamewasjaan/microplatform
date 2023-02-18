@@ -62,7 +62,7 @@ class AdIdTest {
     }
 
     @Test
-    public void AdIUuidOfInvalidString() {
+    public void AdIdUuidOfInvalidString() {
         assertThrows(
                 IllegalArgumentException.class,
                 () -> AdId.of("-0e6c-"));

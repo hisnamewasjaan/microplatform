@@ -1,5 +1,13 @@
 package microplatform.adservice.domain;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 import microplatform.adservice.domain.events.ItemForSaleId;
 import org.hibernate.annotations.Type;
@@ -16,11 +24,17 @@ import java.util.List;
 
 
 @Entity
+@Builder
+@Getter
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor
+@RequiredArgsConstructor
 @ToString
 @Table(name = "item_for_sale")
 public class ItemForSale {
 
     @EmbeddedId
+    @NonNull
     @Type(type = "org.hibernate.type.UUIDCharType")
     private ItemForSaleId id;
 
@@ -30,58 +44,19 @@ public class ItemForSale {
     @NotNull(message = "Ad is mandatory")
     @OneToOne(mappedBy = "itemForSale")
     @ToString.Exclude
+    @Setter
     private Ad ad;
 
     @NotBlank(message = "Name is mandatory")
     private String name;
 
+    @Setter
     private String description;
 
     //    @OneToMany
-    @ElementCollection
 //    @JoinTable(name = "images")
+    @ElementCollection
+    @ToString.Exclude
     private List<Image> images;
-
-    public ItemForSale() {
-    }
-
-    public ItemForSale(String name, String description) {
-        id = ItemForSaleId.create();
-//        id = UUID.randomUUID().toString();
-        this.name = name;
-        this.description = description;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setAd(Ad ad) {
-        this.ad = ad;
-    }
-
-    public ItemForSaleId getId() {
-        return id;
-    }
-
-    public void setId(ItemForSaleId id) {
-        this.id = id;
-    }
-
-    public Long getVersion() {
-        return version;
-    }
 
 }

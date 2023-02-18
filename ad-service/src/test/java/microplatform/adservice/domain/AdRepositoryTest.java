@@ -1,5 +1,6 @@
 package microplatform.adservice.domain;
 
+import microplatform.adservice.domain.events.ItemForSaleId;
 import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,8 +8,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
 import java.math.BigDecimal;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 class AdRepositoryTest implements WithAssertions {
@@ -23,9 +22,11 @@ class AdRepositoryTest implements WithAssertions {
     @Test
     public void findBy() {
         String sellerId = "seller-id-adssdfds";
-        ItemForSale itemForSale = new ItemForSale(
-                "just a test",
-                "just a desc");
+        ItemForSale itemForSale = ItemForSale.builder()
+                .id(ItemForSaleId.create())
+                .name("just a test")
+                .description("just a desc")
+                .build();
         entityManager.persist(itemForSale);
         Ad ad = Ad.newAd(
                 itemForSale,
@@ -36,8 +37,11 @@ class AdRepositoryTest implements WithAssertions {
 
         Iterable<Ad> allBySellerId = adRepository.findAllBySellerId(sellerId);
 
-        assertThat(allBySellerId.iterator().hasNext()).isTrue();
-        assertThat(allBySellerId.iterator().next().getName()).isEqualTo("just a test");
+        assertThat(allBySellerId).hasSize(1);
+        assertThat(allBySellerId).anyMatch(
+                it -> it.getItemForSale()
+                        .getName()
+                        .equals("just a test"));
     }
 
 }

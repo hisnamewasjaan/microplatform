@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import microplatform.adservice.domain.AdId;
 import org.hibernate.annotations.Type;
 import org.springframework.data.annotation.Immutable;
 

@@ -18,8 +18,8 @@ public class AdDto {
 
     public static AdDto of(Ad ad) {
         AdDto adDto = new AdDto(ad.getId().getId());
-        adDto.setName(ad.getName());
-        adDto.setDescription(ad.getDescription());
+        adDto.setName(ad.getItemForSale().getName());
+        adDto.setDescription(ad.getItemForSale().getDescription());
         adDto.setPrice(ad.getPrice().getAmount());
         adDto.setSellerId(ad.getSellerId());
         adDto.setAdStatus(ad.getAdStatus().name());
