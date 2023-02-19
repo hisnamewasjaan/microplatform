@@ -7,6 +7,14 @@ version 2.7.5
 
 [Spring Boot Reference Documentation 3.0.2 - current](https://docs.spring.io/spring-boot/docs/current/reference/html/index.html)
 
+### Gradle Java toolchain
+[Toolchains for JVM projects](https://docs.gradle.org/current/userguide/toolchains.html)
+
+Inspect using
+```shell
+gradle -q javaToolchains
+```
+
 ### Testing
 ```shell
 ./gradlew test
