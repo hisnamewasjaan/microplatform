@@ -3,7 +3,11 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  OAUTH_CLIENT_ID: 'ads',
+  OAUTH_REDIRECT_URI: 'http://localhost:4200/',
+  OAUTH_URL: 'http://localhost:8083',
+
 };
 
 /*

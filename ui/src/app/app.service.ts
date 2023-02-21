@@ -7,7 +7,7 @@ import { throwError, of } from 'rxjs';
 import {map} from "rxjs";
 import {catchError} from "rxjs";
 import * as rxjs from 'rxjs';
-
+import { environment } from './../environments/environment';
 
 export interface IUser {
     sub: string;
@@ -25,8 +25,8 @@ export class AppService {
     /**
      * OAuth2 client id
      */
-    public clientId = 'newClient';
-    public redirectUri = 'http://localhost:4200/';
+    public clientId = environment.OAUTH_CLIENT_ID;
+    public redirectUri = environment.OAUTH_REDIRECT_URI;
 
 
     constructor(private _http: HttpClient) {
@@ -43,7 +43,7 @@ export class AppService {
         let headers =
             new HttpHeaders({'Content-type': 'application/x-www-form-urlencoded; charset=utf-8'});
 
-        this._http.post('http://localhost:8083/auth/realms/baeldung/protocol/openid-connect/token',
+        this._http.post(environment.OAUTH_URL + '/realms/microads/protocol/openid-connect/token',
             params.toString(), {headers: headers})
             .subscribe(
                 data => this.saveToken(data),
@@ -57,7 +57,7 @@ export class AppService {
         });
 
         return this._http.get<IUser>(
-            'http://localhost:8083/auth/realms/baeldung/protocol/openid-connect/userinfo',
+            environment.OAUTH_URL + '/realms/microads/protocol/openid-connect/userinfo',
             {headers: headers})
             ;
     }
@@ -67,7 +67,7 @@ export class AppService {
         /* set cookie for storage only, it will never be sent */
         Cookie.set("access_token", token.access_token, expireDate);
         console.log('Obtained Access token');
-        window.location.href = 'http://localhost:4200';
+        window.location.href = 'http://localhost:4200/';
     }
 
     checkCredentials() {

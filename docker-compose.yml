@@ -1,0 +1,55 @@
+#file: noinspection SpellCheckingInspection
+version: "3.9"
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+#      POSTGRES_MULTIBLE_DATABASES: microads:micropwd,keycloak:keycloak
+      POSTGRES_DB: microads
+      POSTGRES_USER: pgadmin
+      POSTGRES_PASSWORD: pgadmin
+    ports:
+      - "5432:5432"
+    volumes:
+      - /Users/janemilbentzen/dev/playpen/microplatform/data/db:/var/lib/postgresql/data
+#      - /Users/janemilbentzen/dev/playpen/microplatform/data/initdb:/docker-entrypoint-initdb.d
+  ads:
+    build: ad-service/.
+    depends_on:
+      - db
+    environment:
+      SPRING_PROfilES_ACTIVE: development,postgres,keycloak
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/microads
+      SPRING_DATASOURCE_USERNAME: pgadmin
+      SPRING_DATASOURCE_PASSWORD: pgadmin
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      OAUTH_HOST: auth
+    ports:
+      - "8081:8081"
+      - "5005:5005"
+  auth:
+    image: quay.io/keycloak/keycloak
+    depends_on:
+      - db
+    ports:
+      - "8083:8083"
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_HTTP_PORT: 8083
+      KC_LOG_LEVEL: info
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://db:5432/microads
+#      KC_DB_URL_HOST: db
+      KC_DB_USERNAME: pgadmin
+      KC_DB_PASSWORD: pgadmin
+    command:
+      - start-dev
+#      - --import-realm
+#    volumes:
+#      - ./keycloak/src/main/resources/microads-realm.json:/opt/keycloak/data/import/realm.json
+  web:
+    build: ui/.
+    ports:
+      - "4200:4200"

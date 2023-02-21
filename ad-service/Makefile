@@ -18,6 +18,21 @@ test: ## Run tests
 
 # bootRun
 bootRun: ## Run spring boot app
+	export DB_URL='jdbc:h2:/Users/janemilbentzen/h2/microtest'; \
+	export LOGGING_LEVEL_ROOT=warn; \
+	export SPRING_SECURITY_OAUTH_2_RESOURCESERVER_JWT_ISSUER_URI='http://localhost:8083/realms/microads'; \
+	export SPRING_SECURITY_OAUTH_2_RESOURCESERVER_JWK_SET_URI='http://localhost:8083/realms/microads/protocol/openid-connect/certs'; \
+	./gradlew -g ~/.gradle5 --console verbose bootRun
+
+# bootRun
+bootRun-postgres: ## Run spring boot app
+	export POSTGRES_DB='microads'; \
+	export POSTGRES_USER='micro'; \
+	export POSTGRES_PASSWORD='micropwd'; \
+	export DB_URL='jdbc:postgresql://db:5432/${POSTGRES_DB}'; \
+	export LOGGING_LEVEL_ROOT=warn; \
+	export SPRING_SECURITY_OAUTH_2_RESOURCESERVER_JWT_ISSUER_URI='http://localhost:8083/realms/microads'; \
+	export SPRING_SECURITY_OAUTH_2_RESOURCESERVER_JWK_SET_URI='http://localhost:8083/realms/microads/protocol/openid-connect/certs'; \
 	./gradlew -g ~/.gradle5 --console verbose bootRun
 
 # build jar
