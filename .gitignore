@@ -4,3 +4,4 @@
 # Ignore Gradle build output directory
 build
 oauth-authorization-server/target/
+data/db/

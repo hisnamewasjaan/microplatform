@@ -1,3 +1,6 @@
+APP_NAME=ui
+
+
 # HELP
 # This will output the help for each task
 # thanks to https://marmelab.com/blog/2016/02/29/auto-documented-makefile.html
@@ -25,6 +28,10 @@ serve: ## Run `ng serve` dev server
 build: ## Run `ng build` to build the project
 	ng build
 
+# Run `ng build --configuration=production` to build the project
+build-prod: ## Run `ng build --configuration=production` to build the project
+	ng build --configuration=production
+
 # Run `ng test` to execute the unit tests
 test: ## Run `ng test` to execute the unit tests
 	ng test
@@ -33,4 +40,10 @@ test: ## Run `ng test` to execute the unit tests
 e2e: ## Run `ng e2e` to execute the end-to-end test
 	ng test
 
-#up: build serve ## Run container (Alias to run)
+# DOCKER TASKS
+# Build the container
+container: ## Build the container
+	docker build --tag hwj/$(APP_NAME) .
+
+up: container ## Run container (Alias to run)
+	docker run -p 4200:4200 --name="$(APP_NAME)" hwj/$(APP_NAME)

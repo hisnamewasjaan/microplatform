@@ -1,59 +1,30 @@
+#file: noinspection SpellCheckingInspection
+debug: false
+
 logging:
   group:
     tomcat: "org.apache.catalina,org.apache.coyote,org.apache.tomcat"
   level:
-    root: "warn"
+    root: ${LOGGING_LEVEL_ROOT:"warn"}
     tomcat: "warn"
     web: "debug"
     sql: "debug"
-#    org.springframework: "trace"
-    org.springframework.boot.context.config: "debug"
+    #    org.springframework: "trace"
+    # detailed information about the files that are being loaded
+    org.springframework.boot.context.config: "trace"
     org.springframework.boot.autoconfigure.condition: "debug"
-    org.springframework.beans.factory.support: "debug"
+    org.springframework.beans.factory.support: "info"
     org.springframework.orm.jpa: debug
     org.springframework.jdbc.datasource: debug
-    org.hibernate.sql: debug
+    org.hibernate.SQL: debug
+    org.hibernate.type.descriptor.sql.BasicBinder: trace
     microplatform: "trace"
     org:
       springframework:
+        data: debug
+        security: debug
         boot:
           autoconfigure:
             h2: debug
 server:
   port: 8081
-
-
-spring:
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-#          issuer-uri: 'http://localhost:9000'
-          issuer-uri: http://localhost:8083/auth/realms/baeldung
-#          points to the URI containing the public key so that our Resource Server can verify the tokens' integrity.
-          jwk-set-uri: http://localhost:8083/auth/realms/baeldung/protocol/openid-connect/certs
-  datasource:
-    driver-class-name: "org.h2.Driver"
-    url: "jdbc:h2:/Users/janemilbentzen/h2/microtest"
-
-#    url: "jdbc:h2:mem:test;DB_CLOSE_ON_EXIT=FALSE"
-  jpa:
-    generate-ddl: true
-    database: H2
-    database-platform: "org.hibernate.dialect.H2Dialect"
-    hibernate:
-      ddl-auto: update
-      dialect: "org.hibernate.dialect.H2Dialect"
-    show-sql: true
-  #      database-platform: "org.hibernate.dialect.H2Dialect"
-
-
-  h2:
-    console:
-      enabled: true
-      settings:
-        trace: true
-
-
-#security:
-#  sessions: NEVER

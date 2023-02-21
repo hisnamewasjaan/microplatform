@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {AppService} from "../app.service";
+import {environment} from './../../environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -23,7 +24,7 @@ export class HomeComponent implements OnInit {
 
   login() {
     window.location.href =
-        'http://localhost:8083/auth/realms/baeldung/protocol/openid-connect/auth?response_type=code&scope=openid%20write%20read&client_id=' +
+        environment.OAUTH_URL + '/realms/microads/protocol/openid-connect/auth?response_type=code&scope=openid&client_id=' +
         this._service.clientId + '&redirect_uri=' + this._service.redirectUri;
   }
 

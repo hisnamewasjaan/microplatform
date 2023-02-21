@@ -1,0 +1,26 @@
+
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+#          issuer-uri: http://${OAUTH_HOST:oauth}:8083/realms/microads
+          issuer-uri: http://localhost:8083/realms/microads
+#          points to the URI containing the public key so that our Resource Server can verify the tokens' integrity.
+          jwk-set-uri: http://${OAUTH_HOST:oauth}:8083/realms/microads/protocol/openid-connect/certs
+  datasource:
+    name: microads
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+#    initialization-mode: always
+  jpa:
+    database: POSTGRESQL
+    hibernate:
+      # uses import.sql from classpath
+      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO}
+    # dumps hibernate sql to stdout
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true

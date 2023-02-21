@@ -7,6 +7,19 @@ version 2.7.5
 
 [Spring Boot Reference Documentation 3.0.2 - current](https://docs.spring.io/spring-boot/docs/current/reference/html/index.html)
 
+#### data initialization
+
+[howto.data-initialization](https://docs.spring.io/spring-boot/docs/2.7.5/reference/html/howto.html#howto.data-initialization)
+```env
+SPRING_JPA_HIBERNATE_DDL_AUTO: update
+```
+
+#### spring profiles
+
+```env
+
+```
+
 ### Gradle Java toolchain
 [Toolchains for JVM projects](https://docs.gradle.org/current/userguide/toolchains.html)
 
@@ -88,10 +101,3 @@ Using the TSID as a Primary Key value [The best UUID type for a database Primary
 @Builder
 Not ideal for a JPA entries
 [https://github.com/projectlombok/lombok/wiki/FEATURE-IDEA:-%22Mandatory%22-fields-with-@Builder](https://github.com/projectlombok/lombok/wiki/FEATURE-IDEA:-%22Mandatory%22-fields-with-@Builder)
-
-### DDD
-
-https://www.domainlanguage.com/upcoming-events/
-https://github.com/citerus/dddsample-core/tree/master/src/main/java/se/citerus/dddsample
-https://groups.google.com/g/dddsample
-https://www.dddcommunity.org/wp-content/uploads/files/pdf_articles/Vernon_2011_1.pdf
