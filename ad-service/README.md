@@ -101,3 +101,14 @@ Using the TSID as a Primary Key value [The best UUID type for a database Primary
 @Builder
 Not ideal for a JPA entries
 [https://github.com/projectlombok/lombok/wiki/FEATURE-IDEA:-%22Mandatory%22-fields-with-@Builder](https://github.com/projectlombok/lombok/wiki/FEATURE-IDEA:-%22Mandatory%22-fields-with-@Builder)
+
+### Actuator
+
+[spring-boot/docs/2.7.5/reference/html/actuator](https://docs.spring.io/spring-boot/docs/2.7.5/reference/html/actuator.html)
+
+Some examples..
+
+- [/actuator discovery](http://localhost:8081/actuator)
+- [/actuator/health](http://localhost:8081/actuator/health)
+- [/actuator/health/db](http://localhost:8081/actuator/health/db)
+- [/actuator/configprops](http://localhost:8081/actuator/configprops)
