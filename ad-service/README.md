@@ -106,9 +106,16 @@ Not ideal for a JPA entries
 
 [spring-boot/docs/2.7.5/reference/html/actuator](https://docs.spring.io/spring-boot/docs/2.7.5/reference/html/actuator.html)
 
-Some examples..
+NB: Current configuration **NOT** production ready.
+
+#### Some endpoint examples..
 
 - [/actuator discovery](http://localhost:8081/actuator)
 - [/actuator/health](http://localhost:8081/actuator/health)
 - [/actuator/health/db](http://localhost:8081/actuator/health/db)
 - [/actuator/configprops](http://localhost:8081/actuator/configprops)
+
+#### Auditing
+[Audit events](https://docs.spring.io/spring-boot/docs/2.7.5/reference/html/actuator.html#actuator.auditing) are stored
+in [InMemoryAuditRepository](src/main/java/microplatform/adservice/audit/AuditConfiguration.java) and may be accessed
+via [/actuator/auditevents](http://localhost:8081/actuator/auditevents)
