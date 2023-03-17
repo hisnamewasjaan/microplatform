@@ -28,7 +28,12 @@ public class ResourceServerConfig {
                 .cors()
                 .and()
                 .authorizeRequests()
-                    .antMatchers("/favicon.ico", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html")
+                .antMatchers(
+                        "/favicon.ico",
+                        "/v3/api-docs/**",
+                        "/swagger-ui/**",
+                        "/swagger-ui.html",
+                        "/actuator/**")
                     .permitAll()
 //                .authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/api/ads/**")
