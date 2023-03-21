@@ -106,6 +106,8 @@ Not ideal for a JPA entries
 
 [spring-boot/docs/2.7.5/reference/html/actuator](https://docs.spring.io/spring-boot/docs/2.7.5/reference/html/actuator.html)
 
+List of (all) [Actuator properties](https://docs.spring.io/spring-boot/docs/2.7.5/reference/html/application-properties.html#appendix.application-properties.actuator)
+
 NB: Current configuration **NOT** production ready.
 
 #### Some endpoint examples..
@@ -114,8 +116,12 @@ NB: Current configuration **NOT** production ready.
 - [/actuator/health](http://localhost:8081/actuator/health)
 - [/actuator/health/db](http://localhost:8081/actuator/health/db)
 - [/actuator/configprops](http://localhost:8081/actuator/configprops)
+- [/actuator/metrics/jvm.gc.pause](http://localhost:8081/actuator/metrics/jvm.gc.pause)
 
 #### Auditing
 [Audit events](https://docs.spring.io/spring-boot/docs/2.7.5/reference/html/actuator.html#actuator.auditing) are stored
 in [InMemoryAuditRepository](src/main/java/microplatform/adservice/audit/AuditConfiguration.java) and may be accessed
 via [/actuator/auditevents](http://localhost:8081/actuator/auditevents)
+
+For a specific principal
+[actuator/auditevents?principal=8307fe93-fddc-457f-9c11-f141e1581dc6](http://localhost:8081/actuator/auditevents?principal=8307fe93-fddc-457f-9c11-f141e1581dc6)
